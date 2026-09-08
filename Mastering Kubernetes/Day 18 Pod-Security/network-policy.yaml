@@ -1,0 +1,20 @@
+#2) Example NetworkPolicy — default deny, allow only namespace/db
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-from-frontend-to-db
+  namespace: backend
+spec:
+  podSelector:
+    matchLabels:
+      app: postgres
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          role: frontend
+    ports:
+    - protocol: TCP
+      port: 5432

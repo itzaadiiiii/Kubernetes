@@ -1,0 +1,49 @@
+# Operating system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editors and IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+.cache/
+tmp/
+
+# Kubernetes credentials and generated local configuration
+kubeconfig
+kubeconfig.*
+*.kubeconfig
+.kube/
+
+# Secrets, certificates, and private keys
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+
+# Terraform state and local overrides
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Helm chart dependencies and packaged charts
+charts/
+*.tgz

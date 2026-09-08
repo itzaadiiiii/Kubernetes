@@ -1,0 +1,16 @@
+#3) Node affinity + toleration snippet (ensure pods land on m5.xlarge nodepool)
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: node.kubernetes.io/instance-type
+            operator: In
+            values:
+            - m5.xlarge
+  tolerations:
+  - key: "workload-type"
+    operator: "Equal"
+    value: "high-cpu"
+    effect: "NoSchedule"

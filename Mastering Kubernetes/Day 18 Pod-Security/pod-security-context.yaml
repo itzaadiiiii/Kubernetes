@@ -1,0 +1,13 @@
+# 1) Minimal securityContext in Pod/Container
+spec:
+  containers:
+  - name: app
+    image: myregistry.example.com/myapp:sha256-...
+    securityContext:
+      runAsUser: 1000
+      runAsGroup: 3000
+      runAsNonRoot: true
+      readOnlyRootFilesystem: true
+      allowPrivilegeEscalation: false
+      capabilities:
+        drop: ["ALL"]
