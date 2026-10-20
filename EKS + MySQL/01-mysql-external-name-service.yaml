@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  namespace: user-mgmt
+spec:
+  type: ExternalName
+  # Replace with the exact endpoint shown in the RDS console; omit https:// and port.
+  externalName: user-mgmt-db.xxxxxxxxxxxx.us-east-1.rds.amazonaws.com
