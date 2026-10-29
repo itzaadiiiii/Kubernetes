@@ -1,0 +1,26 @@
+tty: true
+
+customRules:
+  falco-custom-rules.yaml: |-
+    - rule: Detect Shell in Application Container
+      desc: Detect shell execution inside a container
+      condition: >
+        spawned_process
+        and container
+        and proc.name in (bash, sh, dash)
+      output: >
+        Shell execution detected
+        (user=%user.name
+        process=%proc.name
+        command=%proc.cmdline
+        parent=%proc.pname
+        container=%container.name
+        image=%container.image.repository
+        namespace=%k8s.ns.name
+        pod=%k8s.pod.name)
+      priority: NOTICE
+      tags: [container, process, runtime_security]
+
+
+#Load the custom rule using Helm
+#The official chart supports custom rules through its customRules configuration.
