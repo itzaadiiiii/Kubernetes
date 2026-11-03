@@ -1,0 +1,61 @@
+# ===========================================================
+# ALB CONFIGURATION
+# ===========================================================
+# This annotation tells AWS Load Balancer Controller
+# to provision an Application Load Balancer.
+# ===========================================================
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fintech-ingress
+  namespace: production
+
+  annotations:
+    # 1. Select ALB (Application Load Balancer)
+    kubernetes.io/ingress.class: alb
+
+    # 2. Internet-facing or internal ALB
+    alb.ingress.kubernetes.io/scheme: internet-facing
+
+    # 3. Use IP target type.
+    # ALB sends traffic directly to pod IPs.
+    alb.ingress.kubernetes.io/target-type: ip
+
+    # 4. Configure HTTPS listener
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80},{"HTTPS":443}]'
+
+    # 5. ACM certificate ARN for TLS termination at ALB
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:ap-south-1:123456789012:certificate/xxxx
+
+    # 6. Redirect HTTP to HTTPS
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+
+    # 7. Health check configuration
+    alb.ingress.kubernetes.io/healthcheck-path: /actuator/health
+
+spec:
+  # Explicitly select ALB IngressClass
+  ingressClassName: alb
+
+  rules:
+    - host: api.example.com
+      http:
+        paths:
+          # Route /users traffic to users-service
+          - path: /users
+            pathType: Prefix
+            backend:
+              service:
+                name: users-service
+                port:
+                  number: 8080
+
+          # Route /payments traffic to payments-service
+          - path: /payments
+            pathType: Prefix
+            backend:
+              service:
+                name: payments-service
+                port:
+                  number: 8080
