@@ -1,0 +1,18 @@
+# You can also configure NLB with TLS termination using an ACM certificate
+# For example, change the NLB annotations:
+metadata:
+  annotations:
+    # Select AWS Load Balancer Controller
+    service.beta.kubernetes.io/aws-load-balancer-type: external
+
+    # Provision NLB with pod IP targets
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+
+    # NLB listener uses TLS
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:ap-south-1:123456789012:certificate/xxxx
+
+    # TLS termination at NLB
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "443"
+
+    # Traffic from NLB to backend uses TCP
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
